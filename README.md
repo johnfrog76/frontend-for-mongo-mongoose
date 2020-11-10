@@ -1,4 +1,9 @@
-# Getting Started with Create React App
+
+# Frontend App for mongo-mongoose project
+* repo (https://github.com/johnfrog76/mongo-mongoose)
+* react app using function components, react-router-dom
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
