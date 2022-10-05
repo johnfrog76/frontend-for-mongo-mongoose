@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {useHistory} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 import Spinner from '../components/Spinner';
@@ -14,13 +14,14 @@ const ProductUpdate = props => {
     const [productUpdated, setProductUpdated] = useState();
     const [productError, setProductError] = useState();
     const [formDirty, setFormDirty] = useState(false);
+    const baseURL = process.env.REACT_APP_BASEURL;
 
     useEffect(() => {
         const getDetails = async () => {
             try {
                 const href = document.location.href;
                 const id = href.slice(href.lastIndexOf('/') + 1, href.length);
-                const response = await axios.get(`http://localhost:5000/api/products/${id}`);
+                const response = await axios.get(`${baseURL}/api/products/${id}`);
                 const product = response.data.product;
                 setLoadedItem(product);
             } catch (err) {
@@ -40,11 +41,11 @@ const ProductUpdate = props => {
         if (!formDirty) {
             setFormDirty(true);
         }
-  
+
         const myVal = evt.target.value;
         const key = evt.target.name;
 
-        let existing = {...loadedItem};
+        let existing = { ...loadedItem };
 
         existing[key] = myVal;
         setLoadedItem(existing)
@@ -70,17 +71,17 @@ const ProductUpdate = props => {
 
         try {
             if (clientError) {
-                let err = {message: 'error: all fields are required'};
+                let err = { message: 'error: all fields are required' };
                 throw err;
             } else if (!formDirty) {
-                let err = {message: 'error: there are no field changes'};
+                let err = { message: 'error: there are no field changes' };
                 throw err;
             }
 
 
             const href = document.location.href;
             const id = href.slice(href.lastIndexOf('/') + 1, href.length);
-            const response = await fetch(`http://localhost:5000/api/products/${id}`, {
+            const response = await fetch(`${baseURL}/api/products/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
@@ -152,8 +153,8 @@ const ProductUpdate = props => {
                         />
                     </div>
                     <div className="form-group">
-                    <label htmlFor="productOnSale">product is onsale</label>
-                        <select 
+                        <label htmlFor="productOnSale">product is onsale</label>
+                        <select
                             className="form-control"
                             value={loadedItem.onsale}
                             name="onsale"

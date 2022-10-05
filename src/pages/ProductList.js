@@ -5,15 +5,16 @@ import { NavLink } from 'react-router-dom';
 import Spinner from '../components/Spinner';
 import '../pages/ProductList.css';
 
-const ProductList = props => { 
+const ProductList = props => {
     const [loadedProducts, setLoadedProducts] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState();
+    const baseURL = process.env.REACT_APP_BASEURL;
 
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/products');
+                const response = await axios.get(baseURL + '/api/products');
                 setLoadedProducts(response.data);
             } catch (err) {
                 setHasError(err.message)
@@ -27,10 +28,10 @@ const ProductList = props => {
 
     if (isLoading) {
         return (
-        <div>
-            {heading}
-            <Spinner />
-        </div>
+            <div>
+                {heading}
+                <Spinner />
+            </div>
         )
     } else if (hasError) {
         return (

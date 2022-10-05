@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {useHistory} from 'react-router-dom';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Spinner from '../components/Spinner';
 
@@ -10,6 +10,7 @@ const ProductAdd = props => {
     const [productCreated, setProductCreated] = useState();
     const [productError, setProductError] = useState();
     const [isLoading, setIsLoading] = useState(false);
+    const baseURL = process.env.REACT_APP_BASEURL;
 
     const onAddProduct = async (evt) => {
         evt.preventDefault();
@@ -33,10 +34,10 @@ const ProductAdd = props => {
 
         try {
             if (clientError) {
-                let err = {message: 'error: all fields are required'};
+                let err = { message: 'error: all fields are required' };
                 throw err;
             }
-            const response = await fetch('http://localhost:5000/api/products', {
+            const response = await fetch(baseURL + '/api/products', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -92,7 +93,7 @@ const ProductAdd = props => {
                     <input type="text" className="form-control" name="price" id="productPrice" placeholder="product price" />
                 </div>
                 <div className="form-group">
-                <label htmlFor="productOnSale">product is onsale</label>
+                    <label htmlFor="productOnSale">product is onsale</label>
                     <select className="form-control" name="onsale" id="productOnSale" defaultValue={false}>
                         <option value={false}>No</option>
                         <option value={true}>Yes</option>

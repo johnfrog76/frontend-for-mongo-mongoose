@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import {useHistory, NavLink} from 'react-router-dom';
+import { useHistory, NavLink } from 'react-router-dom';
 import axios from 'axios';
 
 import Spinner from '../components/Spinner';
 
 import '../pages/ProductDetail.css';
 
-const ProductDetail = props => { 
+const ProductDetail = props => {
     const [loadedItem, setLoadedItem] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState();
     const [productRemoved, setProductRemoved] = useState();
     const history = useHistory();
-
+    const baseURL = process.env.REACT_APP_BASEURL;
 
     useEffect(() => {
         const getDetails = async () => {
             try {
                 const href = document.location.href;
                 const id = href.slice(href.lastIndexOf('/') + 1, href.length);
-                const response = await axios.get(`http://localhost:5000/api/products/${id}`);
+                const response = await axios.get(`${baseURL}/api/products/${id}`);
                 const product = response.data.product;
                 setLoadedItem(product);
             } catch (err) {
@@ -30,27 +30,27 @@ const ProductDetail = props => {
         getDetails();
     }, []);
 
-        const onRemoveProduct = async (evt) => {
-            evt.preventDefault();
-            const href = document.location.href;
-            const id = href.slice(href.lastIndexOf('/') + 1, href.length);
-            const url = `http://localhost:5000/api/products/${id}`;
-            try {
-                const response = await fetch(url, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                const responseData = await response.json();
-                setProductRemoved(responseData.message);
-                setTimeout(() => {
-                    history.push('/');
-                }, 1500);
-            } catch (err) {
-                setHasError(err.message);
-            }
-        };
+    const onRemoveProduct = async (evt) => {
+        evt.preventDefault();
+        const href = document.location.href;
+        const id = href.slice(href.lastIndexOf('/') + 1, href.length);
+        const url = `${baseURL}/api/products/${id}`;
+        try {
+            const response = await fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const responseData = await response.json();
+            setProductRemoved(responseData.message);
+            setTimeout(() => {
+                history.push('/');
+            }, 1500);
+        } catch (err) {
+            setHasError(err.message);
+        }
+    };
 
     const heading = (<h4>product details</h4>);
 
